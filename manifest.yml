@@ -1,0 +1,16 @@
+#................
+#  SCP SPACE QA
+#................
+
+applications:
+  - name: capstonefront
+    path: build/
+    memory: 1GB
+    disk_quota: 8GB
+    buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
+    random-route: false
+
+
+env: 
+  REACT_APP_BACKEND_URL: https://capstonebackend.cfapps.br10.hana.ondemand.com
+  #JAVA_HOME: .java-buildpack/open_jdk_jre/bin/
