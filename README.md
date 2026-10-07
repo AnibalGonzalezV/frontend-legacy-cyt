@@ -1,74 +1,73 @@
 # Frontend - Sistema de Planificación de Vendimia (Viña Concha y Toro)
 
-Este directorio contiene el código fuente correspondiente al **Frontend** del Sistema de Apoyo a la Toma de Decisiones (DSS) para la programación logística de patio y vendimia.
+Este directorio contiene el código fuente correspondiente a la capa de presentación (Frontend) del Sistema de Apoyo a la Toma de Decisiones (DSS) para la programación logística de patio y vendimia.
 
-La interfaz proporciona a los usuarios las herramientas visuales para cargar los archivos logísticos (PDF y Excel), gestionar el estado de las máquinas y visualizar los cronogramas generados por el modelo de optimización.
+La interfaz proporciona a los usuarios operativos las herramientas visuales para la carga estructurada de archivos logísticos, la gestión del estado de la maquinaria y la visualización de los cronogramas generados por el motor de optimización matemática.
 
 ---
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
-- **Librería Core:** React 18 (Inicializado vía Create React App).
+- **Framework Core:** React 18 (Inicializado vía Create React App).
 - **Enrutamiento:** React Router DOM v6.
-- **Librerías de UI:** Material-UI (MUI v4) y Bootstrap 5.
+- **Librerías de Interfaz de Usuario:** Material-UI (MUI v4) y Bootstrap 5.
 - **Cliente HTTP:** Axios.
-- **Manejo de Documentos:** `pdfjs-dist`, `xlsx`, y componentes de renderizado PDF.
+- **Procesamiento de Documentos:** `pdfjs-dist`, `xlsx`, `@react-pdf-viewer/core`.
 
 ---
 
-## ⚙️ Requisitos Previos
+## Requisitos Previos
 
-- **Entorno de ejecución:** [Node.js](https://nodejs.org/) (Se recomienda versión v16 o v18 LTS).
-- **Gestor de paquetes:** `npm` (incluido con Node.js).
-- **Servicio Backend:** El backend de Django debe estar ejecutándose localmente para que la aplicación web pueda consumir la API.
+- **Entorno de ejecución:** Node.js (Se requiere versión v16 o v18 LTS para evitar conflictos de compatibilidad con librerías legacy).
+- **Gestor de dependencias:** `npm` (incluido nativamente con Node.js).
+- **Servicio Backend:** El orquestador de Django debe encontrarse en ejecución para que la aplicación web pueda resolver correctamente las llamadas a la API.
 
 ---
 
-## 🚀 Instrucciones de Despliegue Local
+## Instrucciones de Despliegue en Entorno Local
 
-Siga los siguientes pasos para inicializar la interfaz de usuario en su máquina local:
+Siga los pasos detallados a continuación para aprovisionar e inicializar la interfaz de usuario en un entorno de desarrollo:
 
 ### 1. Configuración de Variables de Entorno
-El frontend necesita saber a qué dirección apuntar para comunicarse con la API. En el directorio raíz del frontend (`/frontend`), asegúrese de contar con un archivo `.env` que contenga la siguiente variable:
+El aplicativo requiere la definición del endpoint base para la resolución de peticiones HTTP. En el directorio raíz de este módulo (`/frontend`), verifique o genere el archivo `.env` con la siguiente asignación estática:
 
 ```env
-# URL del backend local (Puerto 8000 por defecto en Django)
 REACT_APP_BACKEND_URL=http://localhost:8000
 ```
 
 ### 2. Instalación de Dependencias
-Abra su terminal en la carpeta `frontend` y ejecute el gestor de paquetes para descargar todas las dependencias listadas en el `package.json`.
+A través de su intérprete de comandos, ejecute el gestor de paquetes para descargar e integrar las dependencias declaradas en el manifiesto `package.json`.
 
 ```bash
 npm install
 ```
 
-### 3. Ejecución del Servidor de Desarrollo
-Una vez finalizada la instalación, inicie el servidor de React en modo desarrollo.
+### 3. Inicialización del Servidor de Desarrollo
+Arranque el servidor de desarrollo local de React. Este comando compilará los módulos en tiempo real y expondrá el servicio localmente.
 
 ```bash
 npm start
 ```
-*El aplicativo abrirá automáticamente una pestaña en su navegador apuntando a [http://localhost:3000](http://localhost:3000).*
+*Por defecto, la interfaz quedará disponible para consumo en http://localhost:3000.*
 
 ---
 
-## 📦 Compilación para Producción
+## Compilación para Entornos Productivos
 
-Si desea generar los archivos estáticos optimizados para montar la aplicación en un servidor web (Nginx, Apache, AWS S3, etc.), ejecute:
+Para generar el empaquetado estático optimizado, requisito para despliegues en servidores web estándar (Nginx, Apache) o servicios de almacenamiento en la nube (AWS S3, Azure Blob, etc.), ejecute:
 
 ```bash
 npm run build
 ```
-Esto generará una carpeta `build/` con el empaquetado minificado y listo para el entorno productivo.
+Este proceso orquestará la transpilación y generará un directorio `build/` con los *assets* estáticos minificados.
 
 ---
 
-## 🧠 Arquitectura de Comunicación
+## Arquitectura y Lógica de Comunicación
 
-1. **Flujo de Peticiones:** Todo componente que requiera datos del servidor utiliza el cliente `axios` para hacer peticiones HTTP hacia la ruta definida en `process.env.REACT_APP_BACKEND_URL`.
-2. **Archivos Base:**
-   - `src/index.js`: Punto de entrada de la aplicación.
-   - `src/App.js`: Declaración del enrutador y estructura base de la web.
-   - `src/components/`: Piezas de interfaz de usuario aisladas y reutilizables.
-   - `src/pages/`: Vistas completas a las que el usuario puede navegar.
+1. **Flujo de Peticiones:** Todo componente que requiera transaccionar datos con el servidor o consultar estados, instancia un cliente asíncrono (`axios`) apuntando hacia la ruta resuelta por la variable `process.env.REACT_APP_BACKEND_URL`.
+2. **Estructura de Directorios Base:**
+   - `src/index.js`: Punto de montaje lógico e inicialización de la jerarquía de React.
+   - `src/App.js`: Declaración del árbol de rutas de navegación.
+   - `src/components/`: Directorio de componentes modulares de interfaz gráfica.
+   - `src/pages/`: Estructuras de vistas completas asociadas a las rutas del aplicativo.
